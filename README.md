@@ -78,7 +78,8 @@ For libpython error:
     ```
 - Set LD_LIBRARY_PATH:
     ```bash
-    export LD_LIBRARY_PATH=</path/to/conda/envs/your_env/lib>:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=/home/caesar/anaconda3/envs/hvgym/lib:$LD_LIBRARY_PATH
+    
     ```
 
 ### Install HumanoidVerse
@@ -181,7 +182,7 @@ python humanoidverse/train_agent.py \
 +robot=g1/g1_29dof_anneal_23dof \
 +terrain=terrain_locomotion_plane \
 +obs=motion_tracking/deepmimic_a2c_nolinvel_LARGEnoise_history \
-num_envs=4096 \
+num_envs=48 \
 project_name=MotionTracking \
 experiment_name=MotionTracking_CR7 \
 robot.motion.motion_file="humanoidverse/data/motions/g1_29dof_anneal_23dof/TairanTestbed/singles/0-TairanTestbed_TairanTestbed_CR7_video_CR7_level1_filter_amass.pkl" \
