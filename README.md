@@ -182,6 +182,9 @@ python humanoidverse/train_agent.py \
 +robot=g1/g1_29dof_anneal_23dof \
 +terrain=terrain_locomotion_plane \
 +obs=motion_tracking/deepmimic_a2c_nolinvel_LARGEnoise_history \
+use_wandb=True \
++wandb.wandb_entity=caesar1457-uts \
++wandb.wandb_dir=./wandb_logs \
 num_envs=48 \
 project_name=MotionTracking \
 experiment_name=MotionTracking_CR7 \
