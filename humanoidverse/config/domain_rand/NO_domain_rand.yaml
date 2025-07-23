@@ -11,7 +11,7 @@ domain_rand:
 
   randomize_friction : False
   # randomize_friction : False
-  friction_range : [-0.6, 1.2]
+  friction_range : [0.6, 1.2]
 
   randomize_base_mass : False # replaced by randomize_link_mass
   added_mass_range : [-5., 10.]
@@ -50,6 +50,17 @@ domain_rand:
   package_loss_range: [1, 10] # dt = 0.02s, delay for 0.02s - 0.2s
   package_loss_interval_s : 2
 
+  # ----------------add joint friction----------------------
+  randomize_joint_friction: True
+  joint_friction_range: [0.3, 1.0]
+
+  randomize_joint_damping: True
+  joint_damping_range: [0.1, 1.0]
+
+  randomize_joint_armature: True
+  joint_armature_range: [0.052, 0.11]
+ 
+  # ---------------------------------------------------------
 
   born_offset : False
   born_offset_curriculum: False

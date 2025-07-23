@@ -1,4 +1,25 @@
-# 回旋踢训练
+
+# For libpython error:
+
+- Check conda path:
+    ```bash
+    conda info -e
+    ```
+- Set LD_LIBRARY_PATH:
+    ```bash
+    export LD_LIBRARY_PATH=/home/caesar/anaconda3/envs/hvgym/lib:$LD_LIBRARY_PATH
+    
+    ```
+
+- 确定pkl的动作时长
+    ```bash
+    python check_motion_duration.py path/to/motion.pkl
+    
+    ```
+
+
+
+## 回旋踢训练
 ```bash
 HYDRA_FULL_ERROR=1 python humanoidverse/train_agent.py \
 +simulator=isaacgym \
@@ -11,6 +32,7 @@ HYDRA_FULL_ERROR=1 python humanoidverse/train_agent.py \
 use_wandb=True \
 +wandb.wandb_entity=caesar1457-uts \
 +wandb.wandb_dir=./wandb_logs \
++checkpoint=logs/MotionTracking/20250723_234215-MotionTracking_CR7-motion_tracking-g1_29dof_anneal_23dof/model_100.pt \
 num_envs=128 \
 project_name=MotionTracking \
 experiment_name=MotionTracking_CR7 \
@@ -28,7 +50,7 @@ robot.asset.self_collisions=1
 
 ```bash
 python humanoidverse/eval_agent.py \
-+checkpoint=logs/MotionTracking/xxxxxxxx_xxxxxxx-MotionTracking_CR7-motion_tracking-g1_29dof_anneal_23dof/model_5800.pt
++checkpoint=logs/MotionTracking/20250723_231712-MotionTracking_CR7-motion_tracking-g1_29dof_anneal_23dof/model_200.pt
 ```
 -----
 

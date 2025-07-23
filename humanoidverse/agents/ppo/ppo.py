@@ -154,14 +154,14 @@ class PPO(BaseAlgo):
             self.current_learning_iteration = loaded_dict["iter"]
             return loaded_dict["infos"]
 
-    def save(self, path, infos=None):
+    def save(self, path, infos=None, iter_value=None):
         logger.info(f"Saving checkpoint to {path}")
         torch.save({
             'actor_model_state_dict': self.actor.state_dict(),
             'critic_model_state_dict': self.critic.state_dict(),
             'actor_optimizer_state_dict': self.actor_optimizer.state_dict(),
             'critic_optimizer_state_dict': self.critic_optimizer.state_dict(),
-            'iter': self.current_learning_iteration,
+            'iter': iter_value if iter_value is not None else self.current_learning_iteration,
             'infos': infos,
         }, path)
         
@@ -206,11 +206,11 @@ class PPO(BaseAlgo):
             }
             self._post_epoch_logging(log_dict)
             if it % self.save_interval == 0:
-                self.save(os.path.join(self.log_dir, 'model_{}.pt'.format(it)))
+                self.save(os.path.join(str(self.log_dir), f'model_{it}.pt'), iter_value=it)
             self.ep_infos.clear()
         
         self.current_learning_iteration += num_learning_iterations
-        self.save(os.path.join(self.log_dir, 'model_{}.pt'.format(self.current_learning_iteration)))
+        self.save(os.path.join(str(self.log_dir), f'model_{self.current_learning_iteration}.pt'), iter_value=self.current_learning_iteration)
 
     def _actor_rollout_step(self, obs_dict, policy_state_dict):
         actions = self._actor_act_step(obs_dict)
