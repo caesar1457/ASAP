@@ -211,14 +211,6 @@ class IsaacGym(BaseSimulator):
         self.base_init_state = base_init_state
         self.envs = []
         self.robot_handles = []
-        #-----------add fdd ------
- 
-        self.joint_friction_coeffs = torch.ones(self.num_envs, self.num_dof, dtype=torch.float, device=self.device, requires_grad=False)
-
-        self.joint_damping_coeffs = torch.ones(self.num_envs, self.num_dof, dtype=torch.float, device=self.device, requires_grad=False)
-
-        self.joint_armatures = torch.zeros(self.num_envs, 1, dtype=torch.float, device=self.device, requires_grad=False)
-
         with Progress() as progress:
             task = progress.add_task(
                 f"Creating {self.num_envs} environments...", total=self.num_envs
@@ -335,34 +327,6 @@ class IsaacGym(BaseSimulator):
 
                 self.dof_pos_limits_termination[i, 0] = m - 0.5 * r * self.env_config.termination_scales.termination_close_to_dof_pos_limit
                 self.dof_pos_limits_termination[i, 1] = m + 0.5 * r * self.env_config.termination_scales.termination_close_to_dof_pos_limit
-        #----------add fdd --------
-        # randomization of the motor frictions in issac gym
-        if self.env_config.domain_rand.randomize_joint_friction:
-            for i in range(len(props)):
-                self.joint_friction_coeffs[env_id, i] = torch_rand_float(
-                    self.env_config.domain_rand.joint_friction_range[0],
-                    self.env_config.domain_rand.joint_friction_range[1], (1, 1), device=self.device)
-
-        # randomization of the motor dampings in issac gym
-        if self.env_config.domain_rand.randomize_joint_damping:
-            for i in range(len(props)):
-                self.joint_damping_coeffs[env_id, i] = torch_rand_float(
-                    self.env_config.domain_rand.joint_damping_range[0],
-                    self.env_config.domain_rand.joint_damping_range[1], (1, 1), device=self.device)
-
-        # randomization of the motor armature in issac gym
-        if self.env_config.domain_rand.randomize_joint_armature:
-            self.joint_armatures[env_id, 0] = torch_rand_float(self.env_config.domain_rand.joint_armature_range[0],
-                                                               self.env_config.domain_rand.joint_armature_range[1],
-                                                               (1, 1), device=self.device)
-
-        for i in range(len(props)):
-            props["friction"][i] *= self.joint_friction_coeffs[env_id, i]
-            props["damping"][i] *= self.joint_damping_coeffs[env_id, i]
-            props["armature"][i] = self.joint_armatures[env_id, 0] 
-        
-       
-        
         return props
 
     def _process_rigid_body_props(self, props, env_id):
